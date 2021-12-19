@@ -13,8 +13,8 @@ class MainScreen(QDialog):
         self.pushButton_2.clicked.connect(self.getFileNames)
 
     def getFileNames(self):
-        self.file = Creater()
-        self.file.showphoto()
+        filenames = QFileDialog.getOpenFileNames(self, '', '.')
+        return filenames[0][0]
 
 
     def goinside(self):
@@ -40,24 +40,13 @@ class Creater(MainScreen):
             else:
                 self.image = QPixmap(self.folder)
                 self.label.setPixmap(self.image)
-                # НЕ НУЖНО:
-                # try_find_name = []
-                # name = ''
-                # for i in range(1, len(str(self.folder))):
-                #     if self.folder[-i] != '/':
-                #         try_find_name.append(self.folder[-i])
-                #     else:
-                #         break
-                # for i in range(1, len(try_find_name) + 1):
-                #     name += try_find_name[-i]
-                # self.image = name
-                # self.ready()
+
         except ImportError:
             self.err = Error()
             self.err.show()
 
-    # def ready(self):
-    #     res = self.image
+    def yourPhoto(self, name):
+        return name
 
     def start(self):
         import pygame_front
@@ -75,6 +64,10 @@ class Error(QDialog):
     def hidewid(self):
         self.hide()
 
+
+
+
+
 def except_hook(cls, exception, traceback):
     sys.__excepthook__(cls, exception, traceback)
 if __name__ == '__main__':
@@ -83,7 +76,6 @@ if __name__ == '__main__':
     form.show()
     sys.excepthook = except_hook
     sys.exit(app.exec())
-
 
 
 
